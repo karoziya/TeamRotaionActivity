@@ -9,7 +9,7 @@
 
         public RotationPeriod RotationPeriod { get; set; }
 
-        public DateOnly LastChangeActivity { get; set; }
+        public DateTime LastChangeActivity { get; set; }
 
         public ActivityWork(string name, string description)
         {

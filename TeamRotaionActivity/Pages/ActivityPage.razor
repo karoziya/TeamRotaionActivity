@@ -1,17 +1,20 @@
-﻿@page "/activitypage"
+﻿@page "/"
 @using TeamRotaionActivity.Model;
 @using TeamRotaionActivity.Services;
 <h3>Activity</h3>
 
 <button class="btn btn-primary" @onclick="LoadActivity">Load</button>
 <button class="btn btn-primary" @onclick="SaveActivity">Save</button>
-
+<button class="btn btn-primary" @onclick="Rotate">Rotate</button>
+<button class="btn btn-primary" @onclick="CheckRotate">CheckRotate</button>
+<hr />
 @if (activities != null)
 {
     @foreach (var activity in activities)
     {
-        <h2>@activity.Name</h2>
+        <h3>@activity.Name</h3>
         <p>@activity.Description</p>
+        <p>Last change activity: @activity.LastChangeActivity</p>
         <table class="table">
             <thead>
                 <tr>
@@ -35,11 +38,20 @@
             </tbody>
         </table>
     }
+    <div>
+        <p>@foreach (var logLine in log)
+            {
+                @logLine
+                <br>
+            }            
+        </p>
+    </div>
 }
 
 
 @code {
     private int currentCount = 0;
+    private List<string> log = new List<string>();
 
     private async Task LoadActivity()
     {
@@ -65,6 +77,25 @@
             currentMemberIndex = count - 1;        
         members.Insert(currentMemberIndex - 1, currentMember);
     }
+
+    private void Rotate()
+    {
+        if (activities != null)
+        {
+            RotationService.Rotate(activities.First());
+            log.Add("Перервенули");
+        }
+    }
+
+    private void CheckRotate()
+    {
+        if (activities != null)
+        {
+            var needRotate = RotationService.NeedRotation(activities.First());
+            log.Add($"Нужно ротировать? {needRotate.ToString()}");
+        }
+    }
+
 
     protected override async Task OnInitializedAsync()
     {

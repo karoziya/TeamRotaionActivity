@@ -9,20 +9,22 @@
         "LastName": "\u041A\u0430\u043C\u044B\u0448\u0435\u0432"
       },
       {
-        "Id": "0cda8aba-0465-47a6-be6d-19b056501c82",
-        "Name": "\u0421\u0435\u0440\u0433\u0435\u0439",
-        "LastName": "\u041F\u043E\u043B\u044F\u043D\u0441\u043A\u0438\u0445"
-      },
-      {
         "Id": "d3fd929c-3c85-4df1-ac3d-be0517489700",
         "Name": "\u041C\u0430\u043A\u0441\u0438\u043C",
         "LastName": "\u041C\u0438\u043D\u0430\u0435\u0432"
       },
       {
+        "Id": "0cda8aba-0465-47a6-be6d-19b056501c82",
+        "Name": "\u0421\u0435\u0440\u0433\u0435\u0439",
+        "LastName": "\u041F\u043E\u043B\u044F\u043D\u0441\u043A\u0438\u0445"
+      },
+      {
         "Id": "d3fd929c-3c85-4df1-ac3d-be0517489701",
-        "Name": "Дмитрий",
-        "LastName": "Буев"
-      }	  
-    ]
+        "Name": "\u0414\u043C\u0438\u0442\u0440\u0438\u0439",
+        "LastName": "\u0411\u0443\u0435\u0432"
+      }
+    ],
+    "RotationPeriod": 0,
+    "LastChangeActivity": "0001-01-01T00:00:00"
   }
 ]
