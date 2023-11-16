@@ -1,0 +1,73 @@
+﻿@page "/activitypage"
+@using TeamRotaionActivity.Model;
+@using TeamRotaionActivity.Services;
+<h3>Activity</h3>
+
+<button class="btn btn-primary" @onclick="LoadActivity">Load</button>
+<button class="btn btn-primary" @onclick="SaveActivity">Save</button>
+
+@if (activities != null)
+{
+    @foreach (var activity in activities)
+    {
+        <h2>@activity.Name</h2>
+        <p>@activity.Description</p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Order</th>
+                    <th>Id</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var member in activity.Members)
+                {
+                    <tr>
+                        <td>@member.Name @member.LastName</td>
+                        <td>
+                            <button class="btn" @onclick="(() => Up(activity, member.Id))">up</button>
+                            <button class="btn">down</button>
+                        </td>
+                        <td>@member.Id</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+}
+
+
+@code {
+    private int currentCount = 0;
+
+    private async Task LoadActivity()
+    {
+        activities = await ActivityService.LoadActivitiesFromFileAsync();
+    }
+
+    private async Task SaveActivity()
+    {
+        if (activities != null)
+            await ActivityService.SaveActivitiesAsync(activities);
+    }
+
+    private IEnumerable<ActivityWork>? activities;
+
+    private void Up(ActivityWork activity, Guid id)
+    {
+        var members = activity.Members;
+        var count = members.Count;
+        var currentMember = members.Single(m => m.Id.Equals(id));
+        var currentMemberIndex = members.IndexOf(currentMember);
+        members.RemoveAt(currentMemberIndex);
+        if (currentMemberIndex == 0 && count > 1)
+            currentMemberIndex = count - 1;        
+        members.Insert(currentMemberIndex - 1, currentMember);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        activities = await ActivityService.LoadActivitiesFromFileAsync();
+    }
+}
