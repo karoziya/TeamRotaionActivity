@@ -1,4 +1,4 @@
-namespace TeamRotaionActivity.Data
+namespace TeamRotationActivity.Data
 {
   public class WeatherForecastService
   {

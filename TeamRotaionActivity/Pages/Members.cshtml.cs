@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace TeamRotaionActivity.Pages
+namespace TeamRotationActivity.Pages
 {
     public class MembersModel : PageModel
     {

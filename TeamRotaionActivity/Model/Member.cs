@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TeamRotaionActivity.Model
+namespace TeamRotationActivity.Model
 {
     public class Member
     {

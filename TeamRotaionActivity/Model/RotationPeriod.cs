@@ -1,4 +1,4 @@
-﻿namespace TeamRotaionActivity.Model
+﻿namespace TeamRotationActivity.Model
 {
     public enum RotationPeriod
     {

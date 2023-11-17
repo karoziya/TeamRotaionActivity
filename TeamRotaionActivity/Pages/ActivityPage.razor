@@ -1,6 +1,6 @@
 ﻿@page "/"
-@using TeamRotaionActivity.Model;
-@using TeamRotaionActivity.Services;
+@using TeamRotationActivity.Model;
+@using TeamRotationActivity.Services;
 <h3>Activity</h3>
 
 <button class="btn btn-primary" @onclick="LoadActivity">Load</button>
@@ -50,7 +50,6 @@
 
 
 @code {
-    private int currentCount = 0;
     private List<string> log = new List<string>();
 
     private async Task LoadActivity()
