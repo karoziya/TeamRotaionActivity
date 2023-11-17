@@ -7,16 +7,16 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["TeamRotaionActivity/TeamRotaionActivity.csproj", "TeamRotaionActivity/"]
-RUN dotnet restore "TeamRotaionActivity/TeamRotaionActivity.csproj"
+COPY ["TeamRotationActivity/TeamRotationActivity.csproj", "TeamRotaionActivity/"]
+RUN dotnet restore "TeamRotationActivity/TeamRotationActivity.csproj"
 COPY . .
-WORKDIR "/src/TeamRotaionActivity"
-RUN dotnet build "TeamRotaionActivity.csproj" -c Release -o /app/build
+WORKDIR "/src/TeamRotationActivity"
+RUN dotnet build "TeamRotationActivity.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "TeamRotaionActivity.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "TeamRotationActivity.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "TeamRotaionActivity.dll"]
+ENTRYPOINT ["dotnet", "TeamRotationActivity.dll"]

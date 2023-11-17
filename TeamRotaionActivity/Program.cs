@@ -1,8 +1,6 @@
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
-using TeamRotaionActivity.Data;
+using TeamRotationActivity.Data;
 
-namespace TeamRotaionActivity
+namespace TeamRotationActivity
 {
   public class Program
   {

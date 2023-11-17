@@ -1,6 +1,6 @@
-﻿using TeamRotaionActivity.Model;
+﻿using TeamRotationActivity.Model;
 
-namespace TeamRotaionActivity.Services
+namespace TeamRotationActivity.Services
 {
     public static class RotationService
     {

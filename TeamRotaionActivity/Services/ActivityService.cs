@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
-using TeamRotaionActivity.Model;
+using TeamRotationActivity.Model;
 
-namespace TeamRotaionActivity.Services
+namespace TeamRotationActivity.Services
 {
     public class ActivityService
     {
