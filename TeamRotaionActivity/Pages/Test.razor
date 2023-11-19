@@ -18,8 +18,13 @@
         currentCount++;
     }
 
-    private void SendHello()
+    private async void SendHello()
     {
-        MattermostService.SendMessage("Hello world");
+        var activityWorks = await ActivityService.LoadActivitiesFromFileAsync();
+        var message = "@here Митинг в 9:20  :eyes: \n[https://directum.ktalk.ru/redteam](https://directum.ktalk.ru/redteam)";
+        var users = activityWorks.First().Members;
+        if (users.Count > 1)
+            message = message + $"\nПроводит {users.ElementAt(0).Name} {users.ElementAt(0).LastName}, далее {users.ElementAt(1).Name} {users.ElementAt(1).LastName}";
+        MattermostService.SendMessage(message);
     }
 }
