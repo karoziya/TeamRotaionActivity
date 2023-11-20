@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamRotationActivity", "Tea
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{496ACB3F-BE2D-4E66-A408-1B53FBAA44AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamRotationActivity.Domain", "TeamRotationActivity.Models\TeamRotationActivity.Domain.csproj", "{DC5852EB-F59B-499E-8760-BB9F17B3639E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamRotationActivity.Domain", "TeamRotationActivity.Models\TeamRotationActivity.Domain.csproj", "{DC5852EB-F59B-499E-8760-BB9F17B3639E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamRotationActivity.Core", "TeamRotationActivity.Core\TeamRotationActivity.Core.csproj", "{06E48A85-0162-4951-BE28-BAF10A0A8325}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamRotationActivity.Core", "TeamRotationActivity.Core\TeamRotationActivity.Core.csproj", "{06E48A85-0162-4951-BE28-BAF10A0A8325}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
