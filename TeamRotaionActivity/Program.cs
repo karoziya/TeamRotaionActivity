@@ -1,40 +1,61 @@
+using Serilog;
+using Serilog.Events;
 using TeamRotationActivity.Core;
-using TeamRotationActivity.Data;
 
-namespace TeamRotationActivity
+namespace TeamRotationActivity;
+
+public class Program
 {
-  public class Program
-  {
-    public static void Main(string[] args)
+    public static int Main(string[] args)
     {
-      var builder = WebApplication.CreateBuilder(args);
+        Log.Logger = new LoggerConfiguration()
+            .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+            .Enrich.FromLogContext()
+            .WriteTo.Console()
+            .WriteTo.SQLite(@"log.db")
+            .CreateBootstrapLogger();
 
-      // Add services to the container.
-      builder.Services.AddRazorPages();
-      builder.Services.AddServerSideBlazor();
+        try
+        {
+            var builder = WebApplication.CreateBuilder(args);
 
-      builder.Services.ConfigureServices();
+            // Add services to the container.
+            builder.Services.AddRazorPages();
+            builder.Services.AddServerSideBlazor();
 
-      var app = builder.Build();
+            builder.Services.ConfigureServices();
 
-      // Configure the HTTP request pipeline.
-      if (!app.Environment.IsDevelopment())
-      {
-        app.UseExceptionHandler("/Error");
-        // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-        app.UseHsts();
-      }
+            var app = builder.Build();
 
-      app.UseHttpsRedirection();
+            // Configure the HTTP request pipeline.
+            if (!app.Environment.IsDevelopment())
+            {
+                app.UseExceptionHandler("/Error");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
+            }
 
-      app.UseStaticFiles();
+            app.UseHttpsRedirection();
 
-      app.UseRouting();
+            app.UseStaticFiles();
 
-      app.MapBlazorHub();
-      app.MapFallbackToPage("/_Host");
+            app.UseRouting();
 
-      app.Run();
+            app.MapBlazorHub();
+            app.MapFallbackToPage("/_Host");
+
+            app.Run();
+
+            return 0;
+        }
+        catch (Exception ex)
+        {
+            Log.Fatal(ex, "Host terminated unexpectedly");
+            return 1;
+        }
+        finally
+        {
+            Log.CloseAndFlush();
+        }
     }
-  }
 }
