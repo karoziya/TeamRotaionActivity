@@ -1,3 +1,4 @@
+using TeamRotationActivity.Core;
 using TeamRotationActivity.Data;
 
 namespace TeamRotationActivity
@@ -11,7 +12,8 @@ namespace TeamRotationActivity
       // Add services to the container.
       builder.Services.AddRazorPages();
       builder.Services.AddServerSideBlazor();
-      builder.Services.AddSingleton<WeatherForecastService>();
+
+      builder.Services.ConfigureServices();
 
       var app = builder.Build();
 
