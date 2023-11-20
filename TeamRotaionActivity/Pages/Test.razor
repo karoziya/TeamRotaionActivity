@@ -1,5 +1,7 @@
 ﻿@page "/test"
+@using TeamRotationActivity.Domain.Interfaces.Services;
 @using TeamRotationActivity.Services;
+@inject IMessageSenderService messageSenderService;
 
 <PageTitle>Counter</PageTitle>
 
@@ -25,6 +27,7 @@
         var users = activityWorks.First().Members;
         if (users.Count > 1)
             message = message + $"\nПроводит {users.ElementAt(0).Name} {users.ElementAt(0).LastName}, далее {users.ElementAt(1).Name} {users.ElementAt(1).LastName}";
-        MattermostService.SendMessage(message);
+        
+        messageSenderService.SendMessage(message);
     }
 }

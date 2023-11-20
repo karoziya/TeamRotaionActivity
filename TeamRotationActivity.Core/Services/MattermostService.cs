@@ -1,11 +1,12 @@
-﻿using System.Net;
-using System.Net.Http.Headers;
+﻿using System.Net.Http.Headers;
+using System.Net.Http.Json;
+using TeamRotationActivity.Domain.Interfaces.Services;
 
-namespace TeamRotationActivity.Services
+namespace TeamRotationActivity.Core.Services
 {
-    public class MattermostService
+    public class MattermostService: IMessageSenderService
     {
-        public static void SendMessage(string message)
+        public async void SendMessage(string message)
         {
             using (var client = new HttpClient())
             {
@@ -17,7 +18,7 @@ namespace TeamRotationActivity.Services
                     channel_id = "ascufsthxibpiq9x7bnqbycimc",
                     message = message
                 };
-                var result = client.PostAsJsonAsync(uri, body).Result;                
+                await client.PostAsJsonAsync(uri, body);                
             }
         }
     }
