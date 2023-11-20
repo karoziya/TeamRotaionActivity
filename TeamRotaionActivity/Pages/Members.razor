@@ -1,0 +1,43 @@
+﻿@page "/members"
+@using TeamRotationActivity.Domain.Interfaces.Services
+@inject IMemberService MemberService
+@inject NavigationManager NavigationManager
+
+
+<div class="row">
+    <div class="col-11"><h3>Members</h3></div>
+    <div class="col-1">
+        <button class="btn btn-primary" @onclick="CreateMember">Добавить</button>
+    </div>
+</div>
+<br/>
+<table class="table">
+    <thead>
+        <tr class ="row">
+            <th class="col-6">#</th>
+            <th class="col-3">First</th>
+            <th class="col-3">Last</th>
+        </tr>
+    </thead>
+    @if (MemberService.GetAll().Any())
+    {
+        @foreach (var member in MemberService.GetAll())
+        {
+            <tbody>
+            <tr class="row">
+                <td class="col-6">@member.Id</td>
+                <td class="col-3">@member.Name</td>
+                <td class="col-3">@member.LastName</td>
+            </tr>
+            </tbody>
+        }
+    }
+</table>
+
+@code {
+
+    private void CreateMember()
+    {
+        NavigationManager.NavigateTo("members/add");
+    }
+}

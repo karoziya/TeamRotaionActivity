@@ -1,0 +1,35 @@
+﻿@page "/activities/add"
+@using TeamRotationActivity.Domain.Interfaces.Services
+@using TeamRotationActivity.Domain.Models
+@inject IActivityService ActivityService
+@inject NavigationManager NavigationManager
+
+<h3>ActivityAdd</h3>
+<br/>
+<EditForm Model="activity" OnValidSubmit="CreateActivity">
+    <div class="mb-3">
+        <label class="form-label">Название</label>
+        <input type="text" class="form-control" placeholder="Name" @bind="activity.Name">
+    </div>
+    <div class="mb-3">
+        <label class="form-label" >Описание</label>
+        <input type="text" class="form-control" placeholder="LastName" @bind="activity.Description">
+    </div>
+    <div class="mb-3">
+        <label class="form-label" >Описание</label>
+        <input type="text" class="form-control" placeholder="LastName" @bind="activity.RotationPeriod">
+    </div>
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+</EditForm>
+
+@code {
+    private ActivityWork activity = new ActivityWork();
+
+    private void CreateActivity()
+    {
+        activity.Id = Guid.NewGuid();
+        ActivityService.Create(activity);
+        NavigationManager.NavigateTo("/activities");
+    }
+
+}

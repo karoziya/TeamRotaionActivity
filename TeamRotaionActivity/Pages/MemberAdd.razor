@@ -1,0 +1,32 @@
+﻿@page "/members/add"
+@using TeamRotationActivity.Domain.Models
+@using TeamRotationActivity.Domain.Interfaces.Services
+
+@inject NavigationManager NavigationManager
+@inject IMemberService MemberService
+
+<h3>Create Member</h3>
+<br/>
+<EditForm Model="member" OnValidSubmit="CreateMember">
+<div class="mb-3">
+    <label for="formGroupExampleInput" class="form-label">Имя</label>
+        <input type="text" class="form-control" placeholder="Name" @bind="member.Name">
+</div>
+<div class="mb-3">
+    <label for="formGroupExampleInput2" class="form-label" >Фамилия</label>
+        <input type="text" class="form-control" placeholder="LastName" @bind="member.LastName">
+</div>
+<button type="submit" class="btn btn-primary">Сохранить</button>
+</EditForm>
+
+@code {
+
+    private Member member = new Member();
+
+    private void CreateMember()
+    {
+        member.Id = Guid.NewGuid();
+        MemberService.Create(member);
+        NavigationManager.NavigateTo("/members");
+    }
+}
