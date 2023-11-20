@@ -3,11 +3,12 @@
 /// <summary>
 /// Интерфейс сущности.
 /// </summary>
-public interface IEntity
+/// <typeparam name="TId">Тип Id.</typeparam>
+public interface IEntity<TId> where TId : struct
 {
     /// <summary>
     /// Идентификатор сущности.
     /// </summary>
-    Guid Id { get; set; }
+    TId Id { get; set; }
 }
 

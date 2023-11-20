@@ -5,7 +5,7 @@ namespace TeamRotationActivity.Domain.Models.Abstractions;
 /// <summary>
 /// Сущность.
 /// </summary>
-public class Entity : IEntity
+public class Entity : IEntity<Guid>
 {
     /// <summary>
     /// Идентификатор.
