@@ -37,8 +37,6 @@ public static class ExtensionsDependentServices
         if (connectionString != null)
         {
             services.AddDbServices(connectionString);
-
-            Console.WriteLine(connectionString);
         }
         else
         {

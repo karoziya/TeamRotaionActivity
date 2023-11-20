@@ -3,11 +3,9 @@
 /// <summary>
 /// Контракт репозитория.
 /// </summary>
-/// <typeparam name="TId">Тип Id.</typeparam>
 /// <typeparam name="TEntity">Сущность.</typeparam>
-public interface IRepository<TId, TEntity>
-    where TEntity : class, IEntity<TId>
-    where TId : struct
+public interface IRepository<TEntity>
+    where TEntity : class, IEntity
 {
     /// <summary>
     /// Метод получения коллекции нужной сущности.
@@ -21,7 +19,7 @@ public interface IRepository<TId, TEntity>
     /// <param name="id">Id.</param>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Сущность <see cref="TEntity"/> nullable.</returns>
-    Task<TEntity?> FindByIdAsync(TId id, CancellationToken cancellationToken);
+    Task<TEntity?> FindByIdAsync(Guid id, CancellationToken cancellationToken);
 
     /// <summary>
     /// Метод проверки существования сущности в коллекции.
@@ -37,7 +35,7 @@ public interface IRepository<TId, TEntity>
     /// <param name="entity">Сущность.</param>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Id.</returns>
-    Task<TId> AddAsync(TEntity entity, CancellationToken cancellationToken);
+    Task<Guid> AddAsync(TEntity entity, CancellationToken cancellationToken);
 
     /// <summary>
     /// Обновление сущности.
@@ -53,6 +51,6 @@ public interface IRepository<TId, TEntity>
     /// <param name="id">Id.</param>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns></returns>
-    Task DeleteAsync(TId id, CancellationToken cancellationToken);
+    Task DeleteAsync(Guid id, CancellationToken cancellationToken);
 }
 

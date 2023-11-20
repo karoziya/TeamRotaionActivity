@@ -28,7 +28,7 @@ public static class DatabaseRegistrationExtensions
             configureAction?.Invoke(builder);
         });
 
-        services.AddScoped(typeof(IRepository<,>), (typeof(BaseRepository<,>)));
+        services.AddScoped(typeof(IRepository<>), (typeof(BaseRepository<>)));
 
         return services;
     }

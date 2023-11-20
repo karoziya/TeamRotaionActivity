@@ -8,11 +8,9 @@ namespace TeamRotationActivity.Database.Repository;
 /// <summary>
 /// Базовый репозиторий.
 /// </summary>
-/// <typeparam name="TId"></typeparam>
 /// <typeparam name="TEntity"></typeparam>
-public class BaseRepository<TId, TEntity> : IRepository<TId, TEntity>
-    where TEntity : class, IEntity<TId>
-    where TId : struct
+public class BaseRepository<TEntity> : IRepository<TEntity>
+    where TEntity : class, IEntity
 {
     private readonly TeamRotationActivityDbContext _context;
     private readonly DbSet<TEntity> _dbSet;
@@ -36,7 +34,7 @@ public class BaseRepository<TId, TEntity> : IRepository<TId, TEntity>
     }
 
     /// <inheritdoc />
-    public async Task<TEntity?> FindByIdAsync(TId id, CancellationToken cancellationToken = default)
+    public async Task<TEntity?> FindByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
         return await Query
                     .AsNoTracking()
@@ -50,7 +48,7 @@ public class BaseRepository<TId, TEntity> : IRepository<TId, TEntity>
     }
 
     /// <inheritdoc />
-    public async Task<TId> AddAsync(TEntity entity, CancellationToken cancellationToken = default)
+    public async Task<Guid> AddAsync(TEntity entity, CancellationToken cancellationToken = default)
     {
         var entityDb = await _dbSet.AddAsync(entity, cancellationToken);
 
@@ -70,7 +68,7 @@ public class BaseRepository<TId, TEntity> : IRepository<TId, TEntity>
     }
 
     /// <inheritdoc />
-    public async Task DeleteAsync(TId id, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(Guid id, CancellationToken cancellationToken = default)
     {
         var entity = await FindByIdAsync(id, cancellationToken);
 
