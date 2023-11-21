@@ -11,12 +11,12 @@ public class ActivityWork : Entity
     /// <summary>
     /// Имя.
     /// </summary>
-    public string Name { get; set; } = String.Empty;
+    public string Name { get; set; } = string.Empty;
 
     /// <summary>
     /// Описание активности.
     /// </summary>
-    public string Description { get; set; } = String.Empty;
+    public string Description { get; set; } = string.Empty;
 
     /// <summary>
     /// Коллекция членов команды.
@@ -29,8 +29,18 @@ public class ActivityWork : Entity
     public RotationPeriod RotationPeriod { get; set; }
 
     /// <summary>
-    /// Последняя активность.
+    /// Дата последней смены ведущего.
     /// </summary>
-    public DateTime LastChangeActivity { get; set; }
+    public DateTime LastRotation { get; set; }
+    
+    /// <summary>
+    /// Дата следующей смены ведущего.
+    /// </summary>
+    public DateTime NextRotation { get; set; }
+    
+    /// <summary>
+    /// Дата проведения.
+    /// </summary>
+    public DateTime ActivityDate { get; set; }
 }
 
