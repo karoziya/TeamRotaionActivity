@@ -1,8 +1,8 @@
 ﻿@page "/"
 @using TeamRotationActivity.Domain.Models;
 @using TeamRotationActivity.Domain.Interfaces.Services
-@using TeamRotationActivity.Services
 
+@inject IActivitySaverService ActivitySaverService
 @inject IRotationService RotationService
 
 
@@ -55,13 +55,13 @@
 
     private async Task LoadActivity()
     {
-        activities = await ActivityService.LoadActivitiesFromFileAsync();
+        activities = await ActivitySaverService.LoadActivitiesFromFileAsync();
     }
 
     private async Task SaveActivity()
     {
         if (activities != null)
-            await ActivityService.SaveActivitiesAsync(activities);
+            await ActivitySaverService.SaveActivitiesAsync(activities);
     }
 
     private IEnumerable<ActivityWork>? activities;
@@ -97,6 +97,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        activities = await ActivityService.LoadActivitiesFromFileAsync();
+        activities = await ActivitySaverService.LoadActivitiesFromFileAsync();
     }
 }
