@@ -1,0 +1,33 @@
+﻿@page "/test"
+@using TeamRotationActivity.Domain.Interfaces.Services;
+@using TeamRotationActivity.Services;
+@inject IMessageSenderService messageSenderService;
+
+<PageTitle>Counter</PageTitle>
+
+<h1>Counter</h1>
+
+<p role="status">Current count: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+<button class="btn btn-primary" @onclick="SendHello">Send Hello</button>
+
+@code {
+    private int currentCount = 0;
+
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+
+    private async void SendHello()
+    {
+        var activityWorks = await ActivityService.LoadActivitiesFromFileAsync();
+        var message = "@here Митинг в 9:20  :eyes: \n[https://directum.ktalk.ru/redteam](https://directum.ktalk.ru/redteam)";
+        var users = activityWorks.First().Members;
+        if (users.Count > 1)
+            message = message + $"\nПроводит {users.ElementAt(0).Name} {users.ElementAt(0).LastName}, далее {users.ElementAt(1).Name} {users.ElementAt(1).LastName}";
+        
+        messageSenderService.SendMessage(message);
+    }
+}
