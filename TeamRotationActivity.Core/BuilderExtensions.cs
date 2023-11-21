@@ -18,6 +18,8 @@ public static class BuilderExtensions
         serviceCollection.AddScoped<IActivityService, ActivityService>();
         serviceCollection.AddScoped<IRotationService, RotationService>();
         serviceCollection.AddScoped<IActivitySaverService, ActivitySaverService>();
+        serviceCollection.AddScoped<IMessageSenderService, MattermostService>();
     }
+}
 }
 
