@@ -4,17 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TeamRotationActivity.Domain.Interfaces.Services
+namespace TeamRotationActivity.Domain.Interfaces.Services;
+
+/// <summary>
+/// Сервис отправки сообщений.
+/// </summary>
+public interface IMessageSenderService
 {
     /// <summary>
-    /// Сервис отправки сообщений.
+    /// Отправить сообщение.
     /// </summary>
-    public interface IMessageSenderService
-    {
-        /// <summary>
-        /// Отправить сообщение.
-        /// </summary>
-        /// <param name="message">Сообщение.</param>
-        void SendMessage(string message);
-    }
+    /// <param name="message">Сообщение.</param>
+    void SendMessage(string message);
 }
