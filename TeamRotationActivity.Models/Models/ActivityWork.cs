@@ -42,5 +42,10 @@ public class ActivityWork : Entity
     /// Дата проведения.
     /// </summary>
     public DateTime ActivityDate { get; set; }
+    
+    /// <summary>
+    /// Текст сообщения активности.
+    /// </summary>
+    public string ActivityAnnouncementMessage { get; set; } = string.Empty;
 }
 

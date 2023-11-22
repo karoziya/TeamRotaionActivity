@@ -21,5 +21,4 @@ public static class BuilderExtensions
         serviceCollection.AddScoped<IMessageSenderService, MattermostService>();
     }
 }
-}
 
