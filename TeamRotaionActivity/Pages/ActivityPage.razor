@@ -1,6 +1,11 @@
 ﻿@page "/"
-@using TeamRotationActivity.Model;
-@using TeamRotationActivity.Services;
+@using TeamRotationActivity.Domain.Models;
+@using TeamRotationActivity.Domain.Interfaces.Services
+
+@inject IActivitySaverService ActivitySaverService
+@inject IRotationService RotationService
+
+
 <h3>Activity</h3>
 
 <button class="btn btn-primary" @onclick="LoadActivity">Load</button>
@@ -14,7 +19,9 @@
     {
         <h3>@activity.Name</h3>
         <p>@activity.Description</p>
-        <p>Last change activity: @activity.LastChangeActivity</p>
+        <p>Last change activity: @activity.LastRotation</p>
+        <p>Next change activity: @activity.NextRotation</p>
+        <p>Next activity will be at: @activity.ActivityDate</p>                                               
         <table class="table">
             <thead>
                 <tr>
@@ -24,43 +31,37 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var member in activity.Members)
+            @if (activity.Members != null)
+            {
+                foreach (var member in activity.Members)
                 {
                     <tr>
                         <td>@member.Name @member.LastName</td>
                         <td>
-                            <button class="btn" @onclick="(() => Up(activity, member.Id))">up</button>
+                            <button class="btn" @onclick="() => Up(activity, member.Id)">up</button>
                             <button class="btn">down</button>
                         </td>
                         <td>@member.Id</td>
                     </tr>
                 }
+            }
             </tbody>
         </table>
     }
-    <div>
-        <p>@foreach (var logLine in log)
-            {
-                @logLine
-                <br>
-            }            
-        </p>
-    </div>
 }
 
 
 @code {
-    private List<string> log = new List<string>();
 
     private async Task LoadActivity()
     {
-        activities = await ActivityService.LoadActivitiesFromFileAsync();
+        activities = await ActivitySaverService.LoadActivitiesFromFileAsync();
     }
 
     private async Task SaveActivity()
     {
         if (activities != null)
-            await ActivityService.SaveActivitiesAsync(activities);
+            await ActivitySaverService.SaveActivitiesAsync(activities);
     }
 
     private IEnumerable<ActivityWork>? activities;
@@ -82,7 +83,6 @@
         if (activities != null)
         {
             RotationService.Rotate(activities.First());
-            log.Add("Перервенули");
         }
     }
 
@@ -91,13 +91,12 @@
         if (activities != null)
         {
             var needRotate = RotationService.NeedRotation(activities.First());
-            log.Add($"Нужно ротировать? {needRotate.ToString()}");
         }
     }
 
 
     protected override async Task OnInitializedAsync()
     {
-        activities = await ActivityService.LoadActivitiesFromFileAsync();
+        activities = await ActivitySaverService.LoadActivitiesFromFileAsync();
     }
 }

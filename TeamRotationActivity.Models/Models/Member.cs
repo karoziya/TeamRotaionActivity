@@ -10,11 +10,11 @@ public class Member : Entity
     /// <summary>
     /// Имя.
     /// </summary>
-    public string Name { get; set; } = String.Empty;
+    public string Name { get; set; } = string.Empty;
 
     /// <summary>
     /// Фамилия.
     /// </summary>
-    public string LastName { get; set; } = String.Empty;
+    public string LastName { get; set; } = string.Empty;
 }
 

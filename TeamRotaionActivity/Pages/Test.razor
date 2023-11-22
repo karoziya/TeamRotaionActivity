@@ -1,7 +1,8 @@
 ﻿@page "/test"
 @using TeamRotationActivity.Domain.Interfaces.Services;
-@using TeamRotationActivity.Services;
-@inject IMessageSenderService messageSenderService;
+
+@inject IMessageSenderService MessageSenderService;
+@inject IActivitySaverService ActivitySaverService;
 
 <PageTitle>Counter</PageTitle>
 
@@ -22,12 +23,12 @@
 
     private async void SendHello()
     {
-        var activityWorks = await ActivityService.LoadActivitiesFromFileAsync();
+        var activityWorks = await ActivitySaverService.LoadActivitiesFromFileAsync();
         var message = "@here Митинг в 9:20  :eyes: \n[https://directum.ktalk.ru/redteam](https://directum.ktalk.ru/redteam)";
         var users = activityWorks.First().Members;
         if (users.Count > 1)
             message = message + $"\nПроводит {users.ElementAt(0).Name} {users.ElementAt(0).LastName}, далее {users.ElementAt(1).Name} {users.ElementAt(1).LastName}";
         
-        messageSenderService.SendMessage(message);
+        MessageSenderService.SendMessage(message);
     }
 }
