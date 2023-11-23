@@ -15,4 +15,6 @@ public interface IActivitySaverService
     /// </summary>
     /// <param name="activities">Активности, которые будут сохранены.</param>
     public Task SaveActivitiesAsync(IEnumerable<ActivityWork> activities);
+
+    public ActivityWork CreateActivities();
 }

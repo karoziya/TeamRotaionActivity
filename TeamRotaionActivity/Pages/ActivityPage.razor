@@ -21,7 +21,7 @@
         <p>@activity.Description</p>
         <p>Last change activity: @activity.LastRotation</p>
         <p>Next change activity: @activity.NextRotation</p>
-        <p>Next activity will be at: @activity.ActivityDate</p>                                               
+        <p>Next activity will be at: @activity.ActivityDate</p>
         <table class="table">
             <thead>
                 <tr>
@@ -50,12 +50,12 @@
     }
 }
 
-
 @code {
 
     private async Task LoadActivity()
     {
-        activities = await ActivitySaverService.LoadActivitiesFromFileAsync();
+        var activitiesWorks = await ActivitySaverService.LoadActivitiesFromFileAsync();
+        activities?.AddRange(activitiesWorks);
     }
 
     private async Task SaveActivity()
@@ -64,7 +64,7 @@
             await ActivitySaverService.SaveActivitiesAsync(activities);
     }
 
-    private IEnumerable<ActivityWork>? activities;
+    private List<ActivityWork>? activities = new List<ActivityWork>();
 
     private void Up(ActivityWork activity, Guid id)
     {
@@ -95,8 +95,11 @@
     }
 
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-        activities = await ActivitySaverService.LoadActivitiesFromFileAsync();
+         // activities = await ActivitySaverService.LoadActivitiesFromFileAsync();
+
+        //activities?.Add(ActivitySaverService.CreateActivities());
+        //activities?.Add(ActivitySaverService.CreateActivities());
     }
 }

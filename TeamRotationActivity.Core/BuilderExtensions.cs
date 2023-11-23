@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using TeamRotationActivity.Core.Services;
 using TeamRotationActivity.Domain.Interfaces.Services;
+using TeamRotationActivity.Jobs.Extensions;
 
 namespace TeamRotationActivity.Core;
 
@@ -19,6 +20,11 @@ public static class BuilderExtensions
         serviceCollection.AddScoped<IRotationService, RotationService>();
         serviceCollection.AddScoped<IActivitySaverService, ActivitySaverService>();
         serviceCollection.AddScoped<IMessageSenderService, MattermostService>();
+
+        serviceCollection.AddCustomHangfire();
+
+        serviceCollection.AddSingleton<IRegistrationJobService, RegistrationJobService>();
+
     }
 }
 
