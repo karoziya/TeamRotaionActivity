@@ -1,6 +1,6 @@
 using Serilog;
 using Serilog.Events;
-using TeamRotationActivity.Core;
+using TeamRotationActivity.Extensions;
 
 namespace TeamRotationActivity;
 
@@ -20,10 +20,7 @@ public class Program
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddRazorPages();
-            builder.Services.AddServerSideBlazor();
-
-            builder.Services.ConfigureServices();
+            builder.RegisterServices();
 
             var app = builder.Build();
 
