@@ -21,19 +21,14 @@ public class Program
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            //builder.Services.AddCustomHangfire();
-
-            // Add services to the container.
             builder.Services.AddRazorPages();
             builder.Services.AddServerSideBlazor();
 
-            
             builder.Services.ConfigureServices();
             
             var app = builder.Build();
 
             app.UseCustomHangfireDashboard();
-
             app.Services.GetService<IRegistrationJobService>()?.StartJobs();
 
             if (!app.Environment.IsDevelopment())
@@ -43,16 +38,10 @@ public class Program
             }
 
             app.UseHttpsRedirection();
-
             app.UseStaticFiles();
-
             app.UseRouting();
-
             app.MapBlazorHub();
             app.MapFallbackToPage("/_Host");
-
-            
-
 
             app.Run();
 
