@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using TeamRotationActivity.Core.Builders;
 using TeamRotationActivity.Core.Services;
+using TeamRotationActivity.Domain.Interfaces.Builders;
 using TeamRotationActivity.Domain.Interfaces.Services;
 using TeamRotationActivity.Jobs.Extensions;
 
@@ -16,15 +18,15 @@ public static class BuilderExtensions
     /// <param name="serviceCollection"></param>
     public static void ConfigureServices(this IServiceCollection serviceCollection)
     {
+        serviceCollection.AddCustomHangfire();
+        
         serviceCollection.AddScoped<IActivityService, ActivityService>();
         serviceCollection.AddScoped<IRotationService, RotationService>();
-        serviceCollection.AddScoped<IActivitySaverService, ActivitySaverService>();
         serviceCollection.AddScoped<IMessageSenderService, MattermostService>();
 
-        serviceCollection.AddCustomHangfire();
-
+        serviceCollection.AddSingleton<ISaverService, SaverService>();
         serviceCollection.AddSingleton<IRegistrationJobService, RegistrationJobService>();
-
+        serviceCollection.AddSingleton<IJobBuilder, JobBuilder>();
     }
 }
 

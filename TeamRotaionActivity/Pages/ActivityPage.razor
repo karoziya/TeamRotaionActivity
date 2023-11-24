@@ -2,7 +2,7 @@
 @using TeamRotationActivity.Domain.Models;
 @using TeamRotationActivity.Domain.Interfaces.Services
 
-@inject IActivitySaverService ActivitySaverService
+@inject ISaverService ActivitySaverService
 @inject IRotationService RotationService
 
 
@@ -69,13 +69,16 @@
     private void Up(ActivityWork activity, Guid id)
     {
         var members = activity.Members;
-        var count = members.Count;
-        var currentMember = members.Single(m => m.Id.Equals(id));
-        var currentMemberIndex = members.IndexOf(currentMember);
-        members.RemoveAt(currentMemberIndex);
-        if (currentMemberIndex == 0 && count > 1)
-            currentMemberIndex = count - 1;        
-        members.Insert(currentMemberIndex - 1, currentMember);
+        var count = members?.Count;
+        var currentMember = members?.Single(m => m.Id.Equals(id));
+        if (currentMember != null)
+        {
+            var currentMemberIndex = members?.IndexOf(currentMember);
+            members?.RemoveAt(currentMemberIndex!.Value);
+            if (currentMemberIndex == 0 && count > 1)
+                currentMemberIndex = (int)(count - 1);        
+            members?.Insert(currentMemberIndex!.Value - 1, currentMember);
+        }
     }
 
     private void Rotate()

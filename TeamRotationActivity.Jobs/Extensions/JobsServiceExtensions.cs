@@ -1,8 +1,8 @@
 ﻿using Hangfire;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using TeamRotationActivity.Domain.Interfaces.Jobs;
 using TeamRotationActivity.Jobs.Jobs;
-using TeamRotationActivity.Jobs.Jobs.Interfaces;
 
 namespace TeamRotationActivity.Jobs.Extensions;
 
@@ -16,7 +16,7 @@ public static class JobsServiceExtensions
     {
         AddHangfireConfiguration();
         AddHangfireServices(serviceCollection);
-        AddJobsServices(serviceCollection);
+        AddJobs(serviceCollection);
     }
 
     /// <summary>
@@ -28,10 +28,10 @@ public static class JobsServiceExtensions
         app.UseHangfireDashboard();
     }
 
-    private static void AddJobsServices(this IServiceCollection serviceCollection)
+    private static void AddJobs(this IServiceCollection serviceCollection)
     {
         serviceCollection.AddScoped<IJob<MessageSchedulerJob>, MessageSchedulerJob>();
-        serviceCollection.AddScoped<IMessageJob, MessageJob>();
+        serviceCollection.AddScoped<IJob<RotationSchedulerJob>, RotationSchedulerJob>();
     }
 
     private static void AddHangfireConfiguration()

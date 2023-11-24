@@ -1,22 +1,40 @@
-﻿using Hangfire;
+﻿using TeamRotationActivity.Domain.Interfaces.Builders;
 using TeamRotationActivity.Domain.Interfaces.Services;
 using TeamRotationActivity.Jobs.Jobs;
-using TeamRotationActivity.Jobs.Jobs.Interfaces;
 
 namespace TeamRotationActivity.Core.Services;
 
+/// <summary>
+/// Сервис регистраций и запуска базовых фоновых служб.
+/// </summary>
 public class RegistrationJobService : IRegistrationJobService
 {
-    public void StartJobs()
+    private readonly IJobBuilder _builder;
+
+    /// <summary>
+    /// Конструктор <see cref="RegistrationJobService"/>
+    /// </summary>
+    /// <param name="builder"></param>
+    public RegistrationJobService(IJobBuilder builder)
     {
-        StartMessageSchedulerJob();
+        _builder = builder;
     }
 
-    private void StartMessageSchedulerJob()
+    /// <summary>
+    /// Запуск базовых фоновых служб.
+    /// </summary>
+    public void StartJobs()
     {
-        var manager = new RecurringJobManager();
-        var jobId = Guid.NewGuid().ToString();
+        var messageRecurringJobId = Guid.NewGuid().ToString();
+        var rotationRecurringJobId = Guid.NewGuid().ToString();
 
-        manager.AddOrUpdate<IJob<MessageSchedulerJob>>(jobId, pr => pr.ExecuteAsync(jobId, CancellationToken.None), "0 6 * * 1-5");
+        _builder.StartRecurringJob<MessageSchedulerJob>(messageRecurringJobId, "0 6 * * *");
+        _builder.StartRecurringJob<RotationSchedulerJob>(rotationRecurringJobId, "0 6 * * *");
+
+        if (DateTime.Now.Hour >= 6 && DateTime.Now.Hour < 18)
+        {
+            _builder.Trigger(messageRecurringJobId);
+            _builder.Trigger(rotationRecurringJobId);
+        }
     }
 }

@@ -24,11 +24,6 @@ public class ActivityWork : Entity
     public List<Member>? Members { get; set; }
 
     /// <summary>
-    /// Активный ведущий.
-    /// </summary>
-    public Guid MemberId { get; set; }
-
-    /// <summary>
     /// Период ротации.
     /// </summary>
     public RotationPeriod RotationPeriod { get; set; }

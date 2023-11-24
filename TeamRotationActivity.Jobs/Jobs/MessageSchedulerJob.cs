@@ -1,53 +1,62 @@
-﻿using Hangfire;
-using TeamRotationActivity.Domain.Enums;
+﻿using TeamRotationActivity.Domain.Interfaces.Builders;
+using TeamRotationActivity.Domain.Interfaces.Jobs;
 using TeamRotationActivity.Domain.Interfaces.Services;
 using TeamRotationActivity.Domain.Models;
-using TeamRotationActivity.Jobs.Jobs.Interfaces;
 
 namespace TeamRotationActivity.Jobs.Jobs;
 
+/// <summary>
+/// Планировщик отправления сообщений по активности.
+/// </summary>
 public class MessageSchedulerJob : IJob<MessageSchedulerJob>
 {
-    private readonly IActivitySaverService _activitySaverService;
+    private readonly ISaverService _activitySaverService;
+    private readonly IActivityService _activityService;
+    private readonly IJobBuilder _builder;
 
-    public MessageSchedulerJob(IActivitySaverService activitySaverService)
+    /// <summary>
+    /// Создать экземпляр <see cref="MessageSchedulerJob"/>
+    /// </summary>
+    /// <param name="activitySaverService"></param>
+    /// <param name="activityService"></param>
+    /// <param name="builder"></param>
+    public MessageSchedulerJob(ISaverService activitySaverService, IActivityService activityService, IJobBuilder builder)
     {
         _activitySaverService = activitySaverService;
+        _activityService = activityService;
+        _builder = builder;
     }
 
     public async Task ExecuteAsync(string jobId, CancellationToken token = default)
     {
         var activities = await _activitySaverService.LoadActivitiesFromFileAsync();
-
-        var activitiesUpdate = new List<ActivityWork>();
-
         if (activities == null)
         {
             return;
         }
 
+        var activitiesUpdate = new List<ActivityWork>();
+
         foreach (var activity in activities)
         {
             if (activity.ActivityDate.Date == DateTime.Now.Date)
             {
-                var activityJobId = Guid.NewGuid().ToString();
+                _builder.SendMessageScheduleJobBuild(activity.ActivityAnnouncementMessage, GetSecondsToJob(activity.ActivityDate));
 
-                BackgroundJob.Schedule<IMessageJob>(pr => 
-                    pr.ExecuteAsync(activityJobId + activity.Name, activity.ActivityAnnouncementMessage),
-                    TimeSpan.FromSeconds(GetSecondsToJob(activity.ActivityDate)));
+                var activityUpdate = _activityService.CalculateActivityDate(activity);
 
-                if (activity.ActivityPeriod == ActivityPeriod.EveryDay)
-                {
-                    activity.ActivityDate = activity.ActivityDate.AddDays(1);
-
-                    activitiesUpdate.Add(activity);
-                }
+                activitiesUpdate.Add(activityUpdate);
             }
         }
 
         await _activitySaverService.SaveActivitiesAsync(activitiesUpdate);
     }
 
+    /// <summary>
+    /// Посчитать разницу между нужным временем и текущим.
+    /// </summary>
+    /// <param name="time">Время.</param>
+    /// <returns>Количество секунд.</returns>
     private double GetSecondsToJob(DateTime time)
     {
         var timeSpan = time - DateTime.Now;

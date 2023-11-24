@@ -1,7 +1,7 @@
-﻿namespace TeamRotationActivity.Jobs.Jobs.Interfaces;
+﻿namespace TeamRotationActivity.Domain.Interfaces.Jobs;
 
 /// <summary>
-/// Интерфейс фоновой службы.
+/// Интерфейс фоновой работы.
 /// </summary>
 /// /// <typeparam name="TJob">Класс джобы.</typeparam>
 public interface IJob<TJob> where TJob : class

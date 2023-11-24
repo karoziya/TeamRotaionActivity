@@ -1,12 +1,12 @@
 ﻿namespace TeamRotationActivity.Domain.Interfaces.Services;
 
 /// <summary>
-/// Регистрация и запуск фоновых служб.
+/// Регистрация и запуск базовых фоновых служб.
 /// </summary>
 public interface IRegistrationJobService
 {
     /// <summary>
-    /// Запуск фоновых служб.
+    /// Запуск базовых фоновых служб.
     /// </summary>
     void StartJobs();
 }

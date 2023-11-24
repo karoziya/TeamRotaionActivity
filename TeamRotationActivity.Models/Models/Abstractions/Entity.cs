@@ -8,7 +8,7 @@ namespace TeamRotationActivity.Domain.Models.Abstractions;
 public class Entity : IEntity
 {
     /// <summary>
-    /// Идентификатор.
+    /// Идентификатор cущности.
     /// </summary>
     public Guid Id { get; set; }
 }
