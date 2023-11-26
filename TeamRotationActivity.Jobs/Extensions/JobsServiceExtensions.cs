@@ -31,7 +31,6 @@ public static class JobsServiceExtensions
     private static void AddJobs(this IServiceCollection serviceCollection)
     {
         serviceCollection.AddScoped<IJob<MessageSchedulerJob>, MessageSchedulerJob>();
-        serviceCollection.AddScoped<IJob<RotationSchedulerJob>, RotationSchedulerJob>();
     }
 
     private static void AddHangfireConfiguration()

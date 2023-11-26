@@ -29,7 +29,7 @@ public class Program
             var app = builder.Build();
 
             app.UseCustomHangfireDashboard();
-            app.Services.GetService<IRegistrationJobService>()?.StartJobs();
+            app.Services.GetService<IJobService>()?.StartJobs();
 
             if (!app.Environment.IsDevelopment())
             {

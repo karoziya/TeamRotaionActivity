@@ -3,7 +3,6 @@
 @using TeamRotationActivity.Domain.Interfaces.Services
 
 @inject ISaverService ActivitySaverService
-@inject IRotationService RotationService
 
 
 <h3>Activity</h3>
@@ -85,7 +84,7 @@
     {
         if (activities != null)
         {
-            RotationService.Rotate(activities.First());
+            //RotationService.Rotate(activities.First());
         }
     }
 
@@ -93,7 +92,7 @@
     {
         if (activities != null)
         {
-            var needRotate = RotationService.NeedRotation(activities.First());
+            // var needRotate = RotationService.NeedRotation(activities.First());
         }
     }
 

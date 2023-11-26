@@ -7,7 +7,7 @@ namespace TeamRotationActivity.Core.Services;
 /// <summary>
 /// Сервис ротации.
 /// </summary>
-public class RotationService : IRotationService
+public class RotationService
 {
     /// <summary>
     /// Определяет, нужна ли смена ведущего в активности.

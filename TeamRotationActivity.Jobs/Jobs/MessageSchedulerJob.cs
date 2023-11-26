@@ -1,5 +1,4 @@
-﻿using TeamRotationActivity.Domain.Interfaces.Builders;
-using TeamRotationActivity.Domain.Interfaces.Jobs;
+﻿using TeamRotationActivity.Domain.Interfaces.Jobs;
 using TeamRotationActivity.Domain.Interfaces.Services;
 using TeamRotationActivity.Domain.Models;
 
@@ -12,7 +11,7 @@ public class MessageSchedulerJob : IJob<MessageSchedulerJob>
 {
     private readonly ISaverService _activitySaverService;
     private readonly IActivityService _activityService;
-    private readonly IJobBuilder _builder;
+    private readonly IJobService jobService;
 
     /// <summary>
     /// Создать экземпляр <see cref="MessageSchedulerJob"/>
@@ -20,14 +19,14 @@ public class MessageSchedulerJob : IJob<MessageSchedulerJob>
     /// <param name="activitySaverService"></param>
     /// <param name="activityService"></param>
     /// <param name="builder"></param>
-    public MessageSchedulerJob(ISaverService activitySaverService, IActivityService activityService, IJobBuilder builder)
+    public MessageSchedulerJob(ISaverService activitySaverService, IActivityService activityService, IJobService jobService)
     {
         _activitySaverService = activitySaverService;
         _activityService = activityService;
-        _builder = builder;
+        this.jobService = jobService;
     }
 
-    public async Task ExecuteAsync(string jobId, CancellationToken token = default)
+    public async Task ExecuteAsync(CancellationToken token = default)
     {
         var activities = await _activitySaverService.LoadActivitiesFromFileAsync();
         if (activities == null)
@@ -41,7 +40,8 @@ public class MessageSchedulerJob : IJob<MessageSchedulerJob>
         {
             if (activity.ActivityDate.Date == DateTime.Now.Date)
             {
-                _builder.SendMessageScheduleJobBuild(activity.ActivityAnnouncementMessage, GetSecondsToJob(activity.ActivityDate));
+                //var messagejob = new MessageJob(activity.ActivityAnnouncementMessage);
+                // this.jobService.StartBackgroundJob(messagejob, GetSecondsToJob(activity.ActivityDate));
 
                 var activityUpdate = _activityService.CalculateActivityDate(activity);
 
