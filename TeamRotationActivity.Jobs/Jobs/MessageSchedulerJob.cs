@@ -1,6 +1,5 @@
 ﻿using TeamRotationActivity.Domain.Interfaces.Jobs;
 using TeamRotationActivity.Domain.Interfaces.Services;
-using TeamRotationActivity.Domain.Models;
 
 namespace TeamRotationActivity.Jobs.Jobs;
 
@@ -12,6 +11,8 @@ public class MessageSchedulerJob : IJob<MessageSchedulerJob>
     private readonly ISaverService _activitySaverService;
     private readonly IActivityService _activityService;
     private readonly IJobService jobService;
+    private readonly IMessageSenderService  messageService;
+
 
     /// <summary>
     /// Создать экземпляр <see cref="MessageSchedulerJob"/>
@@ -19,11 +20,12 @@ public class MessageSchedulerJob : IJob<MessageSchedulerJob>
     /// <param name="activitySaverService"></param>
     /// <param name="activityService"></param>
     /// <param name="builder"></param>
-    public MessageSchedulerJob(ISaverService activitySaverService, IActivityService activityService, IJobService jobService)
+    public MessageSchedulerJob(ISaverService activitySaverService, IActivityService activityService, IJobService jobService, IMessageSenderService messageService)
     {
         _activitySaverService = activitySaverService;
         _activityService = activityService;
         this.jobService = jobService;
+        this.messageService = messageService;
     }
 
     public async Task ExecuteAsync(CancellationToken token = default)
@@ -36,7 +38,8 @@ public class MessageSchedulerJob : IJob<MessageSchedulerJob>
 
         foreach (var activity in activities)
         {
-            var messagejob = new MessageJob(activity.ActivityAnnouncementMessage);
+            //var messagejob = new MessageJob(activity.ActivityAnnouncementMessage, messageService);
+            var messagejob = new MessageJob(messageService);
             // TODO: Нужно придумать как задавать расписание.
             this.jobService.StartRecurringJob(activity.Name, messagejob, "20 9 * * *");
         }

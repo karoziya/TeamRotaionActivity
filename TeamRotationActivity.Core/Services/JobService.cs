@@ -24,11 +24,10 @@ public class JobService : IJobService
     /// Запуск базовых фоновых служб.
     /// </summary>
     public void StartJobs()
-    {
-        // new MessageSchedulerJob().ExecuteAsync(
-        //StartRecurringJob<MessageSchedulerJob>("0 0 * * *");
+    {        
         StartBackgroundJob<MessageSchedulerJob>(immediatePeriod);
-        StartRecurringJob<MessageSchedulerJob>("* * * * *");
+        StartRecurringJob<MessageSchedulerJob>("0 0 * * *");
+        // StartRecurringJob<MessageSchedulerJob>("* * * * *");
     }
 
     public void StartBackgroundJob<T>(double periodInSecond) where T : IJob<T>
