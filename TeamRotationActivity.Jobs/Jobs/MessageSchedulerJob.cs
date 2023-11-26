@@ -34,22 +34,12 @@ public class MessageSchedulerJob : IJob<MessageSchedulerJob>
             return;
         }
 
-        var activitiesUpdate = new List<ActivityWork>();
-
         foreach (var activity in activities)
         {
-            if (activity.ActivityDate.Date == DateTime.Now.Date)
-            {
-                //var messagejob = new MessageJob(activity.ActivityAnnouncementMessage);
-                // this.jobService.StartBackgroundJob(messagejob, GetSecondsToJob(activity.ActivityDate));
-
-                var activityUpdate = _activityService.CalculateActivityDate(activity);
-
-                activitiesUpdate.Add(activityUpdate);
-            }
+            var messagejob = new MessageJob(activity.ActivityAnnouncementMessage);
+            // TODO: Нужно придумать как задавать расписание.
+            this.jobService.StartRecurringJob(activity.Name, messagejob, "20 9 * * *");
         }
-
-        await _activitySaverService.SaveActivitiesAsync(activitiesUpdate);
     }
 
     /// <summary>
