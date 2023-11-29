@@ -1,30 +1,60 @@
 [
   {
-    "Name": "Daily meeting",
-    "Description": "Every day in 9:20",
+    "Name": "Daily Meeting",
+    "Description": "Дейли митинг ежедневный",
     "Members": [
       {
-        "Id": "d3fd929c-3c85-4df1-ac3d-be0517489700",
-        "Name": "\u041C\u0430\u043A\u0441\u0438\u043C",
-        "LastName": "\u041C\u0438\u043D\u0430\u0435\u0432"
+        "Name": "Сергей",
+        "LastName": "Полянских",
+        "Id": "83f2426b-7dfc-479a-94ac-5d40beee0137"
       },
       {
-        "Id": "0cda8aba-0465-47a6-be6d-19b056501c82",
-        "Name": "\u0421\u0435\u0440\u0433\u0435\u0439",
-        "LastName": "\u041F\u043E\u043B\u044F\u043D\u0441\u043A\u0438\u0445"
+        "Name": "Максим",
+        "LastName": "Минаев",
+        "Id": "bc54a6e3-eee5-4a6e-abdd-6c5bdfe74c95"
       },
       {
-        "Id": "d3fd929c-3c85-4df1-ac3d-be0517489701",
-        "Name": "\u0414\u043C\u0438\u0442\u0440\u0438\u0439",
-        "LastName": "\u0411\u0443\u0435\u0432"
+        "Name": "Анастасия",
+        "LastName": "Суксина",
+        "Id": "bc54a6e3-eee5-4a6e-abdd-6c5bdfe74c96"
       },
       {
-        "Id": "cbfe051f-646f-4c30-8e75-e642eb9e321f",
-        "Name": "\u0421\u0435\u0440\u0433\u0435\u0439",
-        "LastName": "\u041A\u0430\u043C\u044B\u0448\u0435\u0432"
+        "Name": "Дмитрий",
+        "LastName": "Буев",
+        "Id": "bc54a6e3-eee5-4a6e-abdd-6c5bdfe74c97"
+      },
+      {
+        "Name": "Валерий",
+        "LastName": "Колесников",
+        "Id": "bc54a6e3-eee5-4a6e-abdd-6c5bdfe74c98"
+      },
+      {
+        "Name": "Андрей",
+        "LastName": "Костылев",
+        "Id": "bc54a6e3-eee5-4a6e-abdd-6c5bdfe74c99"
+      },
+      {
+        "Name": "Марк",
+        "LastName": "Маренин",
+        "Id": "bc54a6e3-eee5-4a6e-abdd-6c5bdfe74c35"
+      },
+      {
+        "Name": "Денис",
+        "LastName": "Мурашов",
+        "Id": "bc54a6e3-eee5-4a6e-abdd-6c5bdfe74c36"
+      },
+      {
+        "Name": "Сергей",
+        "LastName": "Камышев",
+        "Id": "f11a81be-ac5a-4fd4-ae39-0926ba2a5e76"
       }
     ],
-    "RotationPeriod": 0,
-    "LastChangeActivity": "2023-11-17T15:49:44.5184831+03:00"
+    "RotationPeriod": 1,
+    "LastRotation": "2023-11-29T16:35:27.4093013+03:00",
+    "NextRotation": "2023-12-06T16:35:27.4093857+03:00",
+    "ActivityDate": "2023-11-30T16:32:00",
+    "ActivityPeriod": 0,
+    "ActivityAnnouncementMessage": "@here Митинг в 9:20  :eyes: \r\nhttps://directum.ktalk.ru/redteam\r\n Проводит ",
+    "Id": "260dd322-5150-4255-a598-e6f29ad65a87"
   }
 ]

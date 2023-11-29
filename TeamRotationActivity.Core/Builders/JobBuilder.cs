@@ -1,7 +1,7 @@
 ﻿using Hangfire;
+using System.Linq.Expressions;
 using TeamRotationActivity.Domain.Interfaces.Builders;
 using TeamRotationActivity.Domain.Interfaces.Jobs;
-using TeamRotationActivity.Domain.Interfaces.Services;
 
 namespace TeamRotationActivity.Core.Builders;
 
@@ -11,14 +11,14 @@ namespace TeamRotationActivity.Core.Builders;
 public class JobBuilder : IJobBuilder
 {
     /// <summary>
-    /// Создать задачу по отправке сообщения.
+    /// Создать запланированную задачу.
     /// </summary>
-    /// <param name="message">Сообщение.</param>
-    /// <param name="valueSecond">Количество секунд до отправки.</param>
-    public void SendMessageScheduleJobBuild(string message, double valueSecond)
+    /// <typeparam name="T">Тип запускаемой задачи.</typeparam>
+    /// <param name="action">Запускаемый метод.</param>
+    /// <param name="valueSecond">Количество секунд до запуска задачи.</param>
+    public void ScheduleJobBuild<T>(Expression<Action<T>> action, double valueSecond)
     {
-        BackgroundJob.Schedule<IMessageSenderService>(ms => ms.SendMessage(message),
-            TimeSpan.FromSeconds(valueSecond));
+        BackgroundJob.Schedule(action, TimeSpan.FromSeconds(valueSecond));
     }
 
     /// <summary>
@@ -34,7 +34,7 @@ public class JobBuilder : IJobBuilder
     }
 
     /// <summary>
-    /// Немедленное выполнение джобы.
+    /// Немедленное выполнение повторяющейся задачи.
     /// </summary>
     /// <param name="jobId">Идентификатор джобы.</param>
     public void Trigger(string jobId)

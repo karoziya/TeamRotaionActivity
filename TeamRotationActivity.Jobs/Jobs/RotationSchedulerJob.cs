@@ -9,7 +9,7 @@ public class RotationSchedulerJob : IJob<RotationSchedulerJob>
 {
     public Task ExecuteAsync(string jobId, CancellationToken token = default)
     {
-        throw new NotImplementedException();
+        return Task.CompletedTask;
     }
 }
 

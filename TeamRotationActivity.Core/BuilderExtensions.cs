@@ -24,7 +24,7 @@ public static class BuilderExtensions
         serviceCollection.AddScoped<IRotationService, RotationService>();
         serviceCollection.AddScoped<IMessageSenderService, MattermostService>();
 
-        serviceCollection.AddSingleton<ISaverService, SaverService>();
+        serviceCollection.AddSingleton<IReadWriteService, ReadWriteService>();
         serviceCollection.AddSingleton<IRegistrationJobService, RegistrationJobService>();
         serviceCollection.AddSingleton<IJobBuilder, JobBuilder>();
     }

@@ -3,9 +3,9 @@
 namespace TeamRotationActivity.Domain.Interfaces.Services;
 
 /// <summary>
-/// Сервис сохранения.
+/// Сервис сохранения/загрузки данных.
 /// </summary>
-public interface ISaverService
+public interface IReadWriteService
 {
     /// <summary>
     /// Загрузить активности из JSON-файла.

@@ -12,6 +12,11 @@ public class RegistrationJobService : IRegistrationJobService
     private readonly IJobBuilder _builder;
 
     /// <summary>
+    /// Cron выражение.
+    /// </summary>
+    private const string CronExpression = "0 0 * * *";
+
+    /// <summary>
     /// Конструктор <see cref="RegistrationJobService"/>
     /// </summary>
     /// <param name="builder"></param>
@@ -28,13 +33,10 @@ public class RegistrationJobService : IRegistrationJobService
         var messageRecurringJobId = Guid.NewGuid().ToString();
         var rotationRecurringJobId = Guid.NewGuid().ToString();
 
-        _builder.StartRecurringJob<MessageSchedulerJob>(messageRecurringJobId, "0 6 * * *");
-        _builder.StartRecurringJob<RotationSchedulerJob>(rotationRecurringJobId, "0 6 * * *");
+        _builder.StartRecurringJob<MessageSchedulerJob>(messageRecurringJobId, CronExpression);
+        _builder.StartRecurringJob<RotationSchedulerJob>(rotationRecurringJobId, CronExpression);
 
-        if (DateTime.Now.Hour >= 6 && DateTime.Now.Hour < 18)
-        {
-            _builder.Trigger(messageRecurringJobId);
-            _builder.Trigger(rotationRecurringJobId);
-        }
+        _builder.Trigger(messageRecurringJobId);
+        _builder.Trigger(rotationRecurringJobId);
     }
 }

@@ -16,6 +16,11 @@ public class ActivityService : IActivityService
     /// <returns>Обновленная активность.</returns>
     public ActivityWork CalculateActivityDate(ActivityWork activityWork)
     {
+        if (activityWork.ActivityDate.Date > DateTime.Now.Date)
+        {
+            return activityWork;
+        }
+
         switch (activityWork.ActivityPeriod)
         {
             case ActivityPeriod.EveryDay:
@@ -61,7 +66,7 @@ public class ActivityService : IActivityService
                 new() { Id = Guid.NewGuid(), Name = "Сергей", LastName = "Полянских" }
             },
             ActivityPeriod = ActivityPeriod.EveryDay,
-            ActivityAnnouncementMessage = "@here Митинг в 9:20  :eyes: \r\nhttps://directum.ktalk.ru/redteam\r\n Проводит Максим, далее Сергей",
+            ActivityAnnouncementMessage = "@here Митинг в 9:20  :eyes: \r\nhttps://directum.ktalk.ru/redteam\r\n Проводит ",
             NextRotation = DateTime.Now,
             ActivityDate = new DateTime(2023, 11, 23, 22, 28, 00),
             LastRotation = DateTime.Now

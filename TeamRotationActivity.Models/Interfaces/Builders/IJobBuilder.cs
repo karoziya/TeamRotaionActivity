@@ -1,4 +1,5 @@
-﻿using TeamRotationActivity.Domain.Interfaces.Jobs;
+﻿using System.Linq.Expressions;
+using TeamRotationActivity.Domain.Interfaces.Jobs;
 
 namespace TeamRotationActivity.Domain.Interfaces.Builders;
 
@@ -8,11 +9,12 @@ namespace TeamRotationActivity.Domain.Interfaces.Builders;
 public interface IJobBuilder
 {
     /// <summary>
-    /// Создать задачу по отправке сообщения.
+    /// Создать запланированную задачу.
     /// </summary>
-    /// <param name="message">Сообщение.</param>
-    /// <param name="valueSecond">Количество секунд до отправки.</param>
-    void SendMessageScheduleJobBuild(string message, double valueSecond);
+    /// <typeparam name="T">Тип запускаемой задачи.</typeparam>
+    /// <param name="action">Запускаемый метод.</param>
+    /// <param name="valueSecond">Количество секунд до запуска задачи.</param>
+    void ScheduleJobBuild<T>(Expression<Action<T>> action, double valueSecond);
 
     /// <summary>
     /// Создать повторяющуюся задачу по cron.
@@ -23,7 +25,7 @@ public interface IJobBuilder
     void StartRecurringJob<T>(string jobId, string cron) where T : class, IJob<T>;
 
     /// <summary>
-    /// Немедленное выполнение джобы.
+    /// Немедленное выполнение повторяющейся задачи.
     /// </summary>
     /// <param name="jobId">Идентификатор джобы.</param>
     void Trigger(string jobId);

@@ -8,14 +8,14 @@ using JsonSerializer = System.Text.Json.JsonSerializer;
 namespace TeamRotationActivity.Core.Services;
 
 /// <summary>
-/// Сервис сохранения.
+/// Сервис сохранения/загрузки данных.
 /// </summary>
-public class SaverService : ISaverService
+public class ReadWriteService : IReadWriteService
 {
     /// <summary>
     /// Имя файла сохранения.
     /// </summary>
-    private const string DataFileName = "data2.json";
+    private const string DataFileName = "data.json";
 
     /// <summary>
     /// Загрузить активности из JSON-файла.

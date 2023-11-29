@@ -1,4 +1,5 @@
-﻿using TeamRotationActivity.Domain.Interfaces.Builders;
+﻿using TeamRotationActivity.Domain.Enums;
+using TeamRotationActivity.Domain.Interfaces.Builders;
 using TeamRotationActivity.Domain.Interfaces.Jobs;
 using TeamRotationActivity.Domain.Interfaces.Services;
 using TeamRotationActivity.Domain.Models;
@@ -10,7 +11,7 @@ namespace TeamRotationActivity.Jobs.Jobs;
 /// </summary>
 public class MessageSchedulerJob : IJob<MessageSchedulerJob>
 {
-    private readonly ISaverService _activitySaverService;
+    private readonly IReadWriteService _activitySaverService;
     private readonly IActivityService _activityService;
     private readonly IJobBuilder _builder;
 
@@ -20,7 +21,7 @@ public class MessageSchedulerJob : IJob<MessageSchedulerJob>
     /// <param name="activitySaverService"></param>
     /// <param name="activityService"></param>
     /// <param name="builder"></param>
-    public MessageSchedulerJob(ISaverService activitySaverService, IActivityService activityService, IJobBuilder builder)
+    public MessageSchedulerJob(IReadWriteService activitySaverService, IActivityService activityService, IJobBuilder builder)
     {
         _activitySaverService = activitySaverService;
         _activityService = activityService;
@@ -35,21 +36,24 @@ public class MessageSchedulerJob : IJob<MessageSchedulerJob>
             return;
         }
 
-        var activitiesUpdate = new List<ActivityWork>();
+        var updateActivities = new List<ActivityWork>();
 
         foreach (var activity in activities)
         {
-            if (activity.ActivityDate.Date == DateTime.Now.Date)
+            var actualizeActivity = ActualizeActivityDate(activity);
+            var secondToJob = GetSecondsToJob(actualizeActivity.ActivityDate);
+            if (actualizeActivity.ActivityDate.Date == DateTime.Now.Date && secondToJob >= 0)
             {
-                _builder.SendMessageScheduleJobBuild(activity.ActivityAnnouncementMessage, GetSecondsToJob(activity.ActivityDate));
-
-                var activityUpdate = _activityService.CalculateActivityDate(activity);
-
-                activitiesUpdate.Add(activityUpdate);
+                var memberActivity = actualizeActivity.Members?.FirstOrDefault();
+                var messageActivity = actualizeActivity.ActivityAnnouncementMessage + memberActivity?.LastName + " " + memberActivity?.Name;
+                _builder.ScheduleJobBuild<IMessageSenderService>(ms => ms.SendMessage(messageActivity), secondToJob);
             }
+
+            var activityUpdate = _activityService.CalculateActivityDate(actualizeActivity);
+            updateActivities.Add(activityUpdate);
         }
 
-        await _activitySaverService.SaveActivitiesAsync(activitiesUpdate);
+        await _activitySaverService.SaveActivitiesAsync(updateActivities);
     }
 
     /// <summary>
@@ -62,5 +66,21 @@ public class MessageSchedulerJob : IJob<MessageSchedulerJob>
         var timeSpan = time - DateTime.Now;
         var result = timeSpan.TotalSeconds;
         return result;
+    }
+
+    /// <summary>
+    /// Актуализовать дату проведения активности.
+    /// </summary>
+    /// <param name="activityWork">Активность.</param>
+    /// <returns></returns>
+    private ActivityWork ActualizeActivityDate(ActivityWork activityWork)
+    {
+        if (activityWork.ActivityDate.Date < DateTime.Now.Date && activityWork.ActivityPeriod == ActivityPeriod.EveryDay)
+        {
+            activityWork.ActivityDate =
+                activityWork.ActivityDate.AddDays(DateTime.Now.Day - activityWork.ActivityDate.Day);
+        }
+
+        return activityWork;
     }
 }
