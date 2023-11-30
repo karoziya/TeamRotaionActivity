@@ -14,11 +14,12 @@ public class JobBuilder : IJobBuilder
     /// Создать запланированную задачу.
     /// </summary>
     /// <typeparam name="T">Тип запускаемой задачи.</typeparam>
+    /// <param name="jobId">Идентификатор джобы.</param>
     /// <param name="action">Запускаемый метод.</param>
     /// <param name="valueSecond">Количество секунд до запуска задачи.</param>
-    public void ScheduleJobBuild<T>(Expression<Action<T>> action, double valueSecond)
+    public void ScheduleJobBuild<T>(Expression<Action<T>> action, string jobId, double valueSecond)
     {
-        BackgroundJob.Schedule(action, TimeSpan.FromSeconds(valueSecond));
+        BackgroundJob.Schedule("", action, TimeSpan.FromSeconds(valueSecond));
     }
 
     /// <summary>
@@ -30,7 +31,7 @@ public class JobBuilder : IJobBuilder
     void IJobBuilder.StartRecurringJob<T>(string jobId, string cron)
     {
         var manager = new RecurringJobManager();
-        manager.AddOrUpdate<IJob<T>>(jobId, pr => pr.ExecuteAsync(jobId, CancellationToken.None), cron);
+        manager.AddOrUpdate<IJob<T>>(jobId, pr => pr.ExecuteAsync(CancellationToken.None), cron);
     }
 
     /// <summary>

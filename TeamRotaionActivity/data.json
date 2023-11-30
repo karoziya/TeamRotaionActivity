@@ -4,10 +4,63 @@
     "Description": "Дейли митинг ежедневный",
     "Members": [
       {
+        "Name": "Анастасия",
+        "LastName": "Суксина",
+        "Id": "bc54a6e3-eee5-4a6e-abdd-6c5bdfe74c96"
+      },
+      {
+        "Name": "Дмитрий",
+        "LastName": "Буев",
+        "Id": "bc54a6e3-eee5-4a6e-abdd-6c5bdfe74c97"
+      },
+      {
+        "Name": "Валерий",
+        "LastName": "Колесников",
+        "Id": "bc54a6e3-eee5-4a6e-abdd-6c5bdfe74c98"
+      },
+      {
+        "Name": "Андрей",
+        "LastName": "Костылев",
+        "Id": "bc54a6e3-eee5-4a6e-abdd-6c5bdfe74c99"
+      },
+      {
+        "Name": "Марк",
+        "LastName": "Маренин",
+        "Id": "bc54a6e3-eee5-4a6e-abdd-6c5bdfe74c35"
+      },
+      {
+        "Name": "Денис",
+        "LastName": "Мурашов",
+        "Id": "bc54a6e3-eee5-4a6e-abdd-6c5bdfe74c36"
+      },
+      {
+        "Name": "Сергей",
+        "LastName": "Камышев",
+        "Id": "f11a81be-ac5a-4fd4-ae39-0926ba2a5e76"
+      },
+      {
         "Name": "Сергей",
         "LastName": "Полянских",
         "Id": "83f2426b-7dfc-479a-94ac-5d40beee0137"
       },
+      {
+        "Name": "Максим",
+        "LastName": "Минаев",
+        "Id": "bc54a6e3-eee5-4a6e-abdd-6c5bdfe74c95"
+      }
+    ],
+    "RotationPeriod": 1,
+    "LastRotation": "2023-11-30T22:05:06.8611777+03:00",
+    "NextRotation": "2023-12-07T22:05:06.8612804+03:00",
+    "ActivityDate": "2023-12-01T09:20:00",
+    "ActivityPeriod": 0,
+    "ActivityAnnouncementMessage": "@here Митинг в 9:20  :eyes: \r\nhttps://directum.ktalk.ru/redteam\r\n Проводит ",
+    "Id": "260dd322-5150-4255-a598-e6f29ad65a87"
+  },
+  {
+    "Name": "Retro",
+    "Description": "Ретро",
+    "Members": [
       {
         "Name": "Максим",
         "LastName": "Минаев",
@@ -47,14 +100,19 @@
         "Name": "Сергей",
         "LastName": "Камышев",
         "Id": "f11a81be-ac5a-4fd4-ae39-0926ba2a5e76"
+      },
+      {
+        "Name": "Сергей",
+        "LastName": "Полянских",
+        "Id": "83f2426b-7dfc-479a-94ac-5d40beee0137"
       }
     ],
     "RotationPeriod": 1,
-    "LastRotation": "2023-11-29T16:35:27.4093013+03:00",
-    "NextRotation": "2023-12-06T16:35:27.4093857+03:00",
-    "ActivityDate": "2023-11-30T08:20:00",
-    "ActivityPeriod": 0,
-    "ActivityAnnouncementMessage": "@here Митинг в 9:20  :eyes: \r\nhttps://directum.ktalk.ru/redteam\r\n Проводит ",
-    "Id": "260dd322-5150-4255-a598-e6f29ad65a87"
+    "LastRotation": "2023-11-30T10:03:33.8180434+03:00",
+    "NextRotation": "2023-12-07T10:03:33.8181189+03:00",
+    "ActivityDate": "2023-12-14T10:10:00",
+    "ActivityPeriod": 3,
+    "ActivityAnnouncementMessage": "@here Ретро в 10:15  :eyes: \r\nhttps://directum.ktalk.ru/redteam\r\n Проводит ",
+    "Id": "260dd322-5150-4255-a598-e6f29ad65a98"
   }
 ]

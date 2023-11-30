@@ -13,8 +13,9 @@ public interface IJobBuilder
     /// </summary>
     /// <typeparam name="T">Тип запускаемой задачи.</typeparam>
     /// <param name="action">Запускаемый метод.</param>
+    /// <param name="jobId">Идентификатор джобы.</param>
     /// <param name="valueSecond">Количество секунд до запуска задачи.</param>
-    void ScheduleJobBuild<T>(Expression<Action<T>> action, double valueSecond);
+    void ScheduleJobBuild<T>(Expression<Action<T>> action, string jobId, double valueSecond);
 
     /// <summary>
     /// Создать повторяющуюся задачу по cron.

@@ -11,26 +11,26 @@ namespace TeamRotationActivity.Jobs.Jobs;
 /// </summary>
 public class MessageSchedulerJob : IJob<MessageSchedulerJob>
 {
-    private readonly IReadWriteService _activitySaverService;
+    private readonly IReadWriteService _readWriteService;
     private readonly IActivityService _activityService;
     private readonly IJobBuilder _builder;
 
     /// <summary>
     /// Создать экземпляр <see cref="MessageSchedulerJob"/>
     /// </summary>
-    /// <param name="activitySaverService"></param>
+    /// <param name="readWriteService"></param>
     /// <param name="activityService"></param>
     /// <param name="builder"></param>
-    public MessageSchedulerJob(IReadWriteService activitySaverService, IActivityService activityService, IJobBuilder builder)
+    public MessageSchedulerJob(IReadWriteService readWriteService, IActivityService activityService, IJobBuilder builder)
     {
-        _activitySaverService = activitySaverService;
+        _readWriteService = readWriteService;
         _activityService = activityService;
         _builder = builder;
     }
 
-    public async Task ExecuteAsync(string jobId, CancellationToken token = default)
+    public async Task ExecuteAsync(CancellationToken token = default)
     {
-        var activities = await _activitySaverService.LoadActivitiesFromFileAsync();
+        var activities = await _readWriteService.LoadActivitiesFromFileAsync();
         if (activities == null)
         {
             return;
@@ -41,19 +41,12 @@ public class MessageSchedulerJob : IJob<MessageSchedulerJob>
         foreach (var activity in activities)
         {
             var actualizeActivity = ActualizeActivityDate(activity);
-            var secondToJob = GetSecondsToJob(actualizeActivity.ActivityDate);
-            if (actualizeActivity.ActivityDate.Date == DateTime.Now.Date && secondToJob >= 0)
-            {
-                var memberActivity = actualizeActivity.Members?.FirstOrDefault();
-                var messageActivity = actualizeActivity.ActivityAnnouncementMessage + memberActivity?.LastName + " " + memberActivity?.Name;
-                _builder.ScheduleJobBuild<IMessageSenderService>(ms => ms.SendMessage(messageActivity), secondToJob);
-            }
-
+            CreateJobIfDateHasArrived(actualizeActivity);
             var activityUpdate = _activityService.CalculateActivityDate(actualizeActivity);
             updateActivities.Add(activityUpdate);
         }
 
-        await _activitySaverService.SaveActivitiesAsync(updateActivities);
+        await _readWriteService.SaveActivitiesAsync(updateActivities);
     }
 
     /// <summary>
@@ -82,5 +75,29 @@ public class MessageSchedulerJob : IJob<MessageSchedulerJob>
         }
 
         return activityWork;
+    }
+
+    /// <summary>
+    /// Создать джобу для отправки сообщения если подошла дата.
+    /// </summary>
+    /// <param name="activityWork">Активность.</param>
+    private void CreateJobIfDateHasArrived(ActivityWork activityWork)
+    {
+        var secondToJob = GetSecondsToJob(activityWork.ActivityDate);
+        if (activityWork.ActivityDate.Date == DateTime.Now.Date && secondToJob >= 0)
+        {
+            _builder.ScheduleJobBuild<IMessageSenderService>(ms => ms.SendMessage(CreateMessage(activityWork)), activityWork.Name, secondToJob);
+        }
+    }
+
+    /// <summary>
+    /// Создать сообщение для отправки.
+    /// </summary>
+    /// <param name="activityWork">Активность.</param>
+    /// <returns></returns>
+    private string CreateMessage(ActivityWork activityWork)
+    {
+        var memberActivity = activityWork.Members?.FirstOrDefault();
+        return activityWork.ActivityAnnouncementMessage + memberActivity?.LastName + " " + memberActivity?.Name;
     }
 }

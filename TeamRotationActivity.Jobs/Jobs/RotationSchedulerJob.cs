@@ -7,7 +7,7 @@ namespace TeamRotationActivity.Jobs.Jobs;
 /// </summary>
 public class RotationSchedulerJob : IJob<RotationSchedulerJob>
 {
-    public Task ExecuteAsync(string jobId, CancellationToken token = default)
+    public Task ExecuteAsync(CancellationToken token = default)
     {
         return Task.CompletedTask;
     }
