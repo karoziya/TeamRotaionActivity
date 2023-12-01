@@ -74,5 +74,20 @@ public class ActivityService : IActivityService
 
         return activities;
     }
+
+    /// <summary>
+    /// Актуализовать дату проведения активности.
+    /// </summary>
+    /// <param name="activityWork">Активность.</param>
+    public ActivityWork ActualizeActivityDate(ActivityWork activityWork)
+    {
+        if (activityWork.ActivityDate.Date < DateTime.Now.Date && activityWork.ActivityPeriod == ActivityPeriod.EveryDay)
+        {
+            activityWork.ActivityDate =
+                activityWork.ActivityDate.AddDays(DateTime.Now.Day - activityWork.ActivityDate.Day);
+        }
+
+        return activityWork;
+    }
 }
 

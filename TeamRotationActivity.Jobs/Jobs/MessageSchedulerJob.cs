@@ -1,5 +1,4 @@
-﻿using TeamRotationActivity.Domain.Enums;
-using TeamRotationActivity.Domain.Interfaces.Builders;
+﻿using TeamRotationActivity.Domain.Interfaces.Builders;
 using TeamRotationActivity.Domain.Interfaces.Jobs;
 using TeamRotationActivity.Domain.Interfaces.Services;
 using TeamRotationActivity.Domain.Models;
@@ -31,16 +30,12 @@ public class MessageSchedulerJob : IJob<MessageSchedulerJob>
     public async Task ExecuteAsync(CancellationToken token = default)
     {
         var activities = await _readWriteService.LoadActivitiesFromFileAsync();
-        if (activities == null)
-        {
-            return;
-        }
 
         var updateActivities = new List<ActivityWork>();
 
         foreach (var activity in activities)
         {
-            var actualizeActivity = ActualizeActivityDate(activity);
+            var actualizeActivity = _activityService.ActualizeActivityDate(activity);
             CreateJobIfDateHasArrived(actualizeActivity);
             var activityUpdate = _activityService.CalculateActivityDate(actualizeActivity);
             updateActivities.Add(activityUpdate);
@@ -59,22 +54,6 @@ public class MessageSchedulerJob : IJob<MessageSchedulerJob>
         var timeSpan = time - DateTime.Now;
         var result = timeSpan.TotalSeconds;
         return result;
-    }
-
-    /// <summary>
-    /// Актуализовать дату проведения активности.
-    /// </summary>
-    /// <param name="activityWork">Активность.</param>
-    /// <returns></returns>
-    private ActivityWork ActualizeActivityDate(ActivityWork activityWork)
-    {
-        if (activityWork.ActivityDate.Date < DateTime.Now.Date && activityWork.ActivityPeriod == ActivityPeriod.EveryDay)
-        {
-            activityWork.ActivityDate =
-                activityWork.ActivityDate.AddDays(DateTime.Now.Day - activityWork.ActivityDate.Day);
-        }
-
-        return activityWork;
     }
 
     /// <summary>

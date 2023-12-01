@@ -19,5 +19,11 @@ public interface IActivityService
     /// </summary>
     /// <returns>Созданная активность.</returns>
     ActivityWork CreateActivities();
+
+    /// <summary>
+    /// Актуализовать дату проведения активности.
+    /// </summary>
+    /// <param name="activityWork">Активность.</param>
+    ActivityWork ActualizeActivityDate(ActivityWork activityWork);
 }
 
