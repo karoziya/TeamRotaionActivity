@@ -35,10 +35,10 @@ public class MessageSchedulerJob : IJob<MessageSchedulerJob>
 
         foreach (var activity in activities)
         {
-            var actualizeActivity = _activityService.ActualizeActivityDate(activity);
-            CreateJobIfDateHasArrived(actualizeActivity);
-            var activityUpdate = _activityService.CalculateActivityDate(actualizeActivity);
-            updateActivities.Add(activityUpdate);
+            _activityService.ActualizeActivityDate(activity);
+            CreateJobIfDateHasArrived(activity);
+            _activityService.CalculateActivityDate(activity);
+            updateActivities.Add(activity);
         }
 
         await _readWriteService.SaveActivitiesAsync(updateActivities);
@@ -65,7 +65,7 @@ public class MessageSchedulerJob : IJob<MessageSchedulerJob>
         var secondToJob = GetSecondsToJob(activityWork.ActivityDate);
         if (activityWork.ActivityDate.Date == DateTime.Now.Date && secondToJob >= 0)
         {
-            _builder.ScheduleJobBuild<IMessageSenderService>(ms => ms.SendMessage(CreateMessage(activityWork)), activityWork.Name, secondToJob);
+            _builder.ScheduleJobBuild<IMessageSenderService>(ms => ms.SendMessage(CreateMessage(activityWork)), secondToJob);
         }
     }
 

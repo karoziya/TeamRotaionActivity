@@ -83,8 +83,12 @@ public class ActivityService : IActivityService
     {
         if (activityWork.ActivityDate.Date < DateTime.Now.Date && activityWork.ActivityPeriod == ActivityPeriod.EveryDay)
         {
-            activityWork.ActivityDate =
-                activityWork.ActivityDate.AddDays(DateTime.Now.Day - activityWork.ActivityDate.Day);
+            var timeHour = activityWork.ActivityDate.Hour;
+            var timeMinute = activityWork.ActivityDate.Minute;
+
+            var diff = DateTime.Now.Date - activityWork.ActivityDate;
+
+            activityWork.ActivityDate = (activityWork.ActivityDate + diff).AddHours(timeHour).AddMinutes(timeMinute);
         }
 
         return activityWork;
