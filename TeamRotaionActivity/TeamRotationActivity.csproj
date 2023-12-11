@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TeamRotationActivity.Core\TeamRotationActivity.Core.csproj" />
+    <ProjectReference Include="..\TeamRotationActivity.Jobs\TeamRotationActivity.Jobs.csproj" />
     <ProjectReference Include="..\TeamRotationActivity.Models\TeamRotationActivity.Domain.csproj" />
   </ItemGroup>
 

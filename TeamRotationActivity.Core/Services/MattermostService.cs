@@ -3,8 +3,17 @@ using System.Net.Http.Json;
 using TeamRotationActivity.Domain.Interfaces.Services;
 
 namespace TeamRotationActivity.Core.Services;
+
+/// <summary>
+/// Сервис отправки сообщений.
+/// </summary>
 public class MattermostService: IMessageSenderService
 {
+    /// <summary>
+    /// Отправить сообщение.
+    /// </summary>
+    /// <param name="message"></param>
+    /// <exception cref="Exception"></exception>
     public async void SendMessage(string message)
     {
         using (var client = new HttpClient())

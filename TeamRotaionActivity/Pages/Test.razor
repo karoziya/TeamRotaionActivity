@@ -2,7 +2,7 @@
 @using TeamRotationActivity.Domain.Interfaces.Services;
 
 @inject IMessageSenderService MessageSenderService;
-@inject IActivitySaverService ActivitySaverService;
+@inject IReadWriteService ActivitySaverService;
 
 <PageTitle>Counter</PageTitle>
 
@@ -26,7 +26,7 @@
         var activityWorks = await ActivitySaverService.LoadActivitiesFromFileAsync();
         var message = "@here Митинг в 9:20  :eyes: \n[https://directum.ktalk.ru/redteam](https://directum.ktalk.ru/redteam)";
         var users = activityWorks.First().Members;
-        if (users.Count > 1)
+        if (users?.Count > 1)
             message = message + $"\nПроводит {users.ElementAt(0).Name} {users.ElementAt(0).LastName}, далее {users.ElementAt(1).Name} {users.ElementAt(1).LastName}";
         
         MessageSenderService.SendMessage(message);

@@ -4,8 +4,16 @@ using TeamRotationActivity.Domain.Models;
 
 namespace TeamRotationActivity.Core.Services;
 
+/// <summary>
+/// Сервис ротации.
+/// </summary>
 public class RotationService : IRotationService
 {
+    /// <summary>
+    /// Определяет, нужна ли смена ведущего в активности.
+    /// </summary>
+    /// <param name="activityWork">Активность.</param>
+    /// <returns>Нужна ли ротация.</returns>
     public bool NeedRotation(ActivityWork activityWork)
     {
         var differentDays = (DateTime.Now - activityWork.LastRotation).TotalDays;
@@ -13,6 +21,10 @@ public class RotationService : IRotationService
         return differentDays >= rotationPeriodInDays;
     }
 
+    /// <summary>
+    /// Сменить ведущего активности.
+    /// </summary>
+    /// <param name="activityWork">Активность.</param>
     public void Rotate(ActivityWork activityWork)
     {
         var currentMembers = activityWork.Members;

@@ -21,7 +21,7 @@ public class ActivityWork : Entity
     /// <summary>
     /// Коллекция членов команды.
     /// </summary>
-    public IList<Member>? Members { get; set; }
+    public List<Member>? Members { get; set; }
 
     /// <summary>
     /// Период ротации.
@@ -42,6 +42,11 @@ public class ActivityWork : Entity
     /// Дата проведения.
     /// </summary>
     public DateTime ActivityDate { get; set; }
+
+    /// <summary>
+    /// Периодичность проведения.
+    /// </summary>
+    public ActivityPeriod ActivityPeriod { get; set; }
     
     /// <summary>
     /// Текст сообщения активности.

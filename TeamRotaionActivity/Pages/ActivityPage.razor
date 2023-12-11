@@ -2,9 +2,8 @@
 @using TeamRotationActivity.Domain.Models;
 @using TeamRotationActivity.Domain.Interfaces.Services
 
-@inject IActivitySaverService ActivitySaverService
+@inject IReadWriteService ActivitySaverService
 @inject IRotationService RotationService
-
 
 <h3>Activity</h3>
 
@@ -19,9 +18,10 @@
     {
         <h3>@activity.Name</h3>
         <p>@activity.Description</p>
-        <p>Last change activity: @activity.LastRotation</p>
-        <p>Next change activity: @activity.NextRotation</p>
-        <p>Next activity will be at: @activity.ActivityDate</p>                                               
+        <p>Last change activity: @activity.LastRotation.ToString("dd/MM/yyyy - HH:mm")</p>
+        <p>Next change activity: @activity.NextRotation.ToString("dd/MM/yyyy - HH:mm")</p>
+        <p>Дата следующей астивности: @activity.ActivityDate.ToString("dd/MM/yyyy - HH:mm")</p>
+        <p>Активность проводит: @GetMemberNextActivity()</p>
         <table class="table">
             <thead>
                 <tr>
@@ -38,8 +38,8 @@
                     <tr>
                         <td>@member.Name @member.LastName</td>
                         <td>
-                            <button class="btn" @onclick="() => Up(activity, member.Id)">up</button>
-                            <button class="btn">down</button>
+                            <button class="btn btn-primary" @onclick="() => Up(activity, member.Id)">up</button>
+                            <button class="btn btn-primary">down</button>
                         </td>
                         <td>@member.Id</td>
                     </tr>
@@ -50,12 +50,18 @@
     }
 }
 
-
 @code {
+    private List<ActivityWork>? activities = new ();
+
+    protected override async Task OnInitializedAsync()
+    {
+        activities?.AddRange(await ActivitySaverService.LoadActivitiesFromFileAsync());
+    }
 
     private async Task LoadActivity()
     {
-        activities = await ActivitySaverService.LoadActivitiesFromFileAsync();
+        var activitiesWorks = await ActivitySaverService.LoadActivitiesFromFileAsync();
+        activities?.AddRange(activitiesWorks);
     }
 
     private async Task SaveActivity()
@@ -64,26 +70,29 @@
             await ActivitySaverService.SaveActivitiesAsync(activities);
     }
 
-    private IEnumerable<ActivityWork>? activities;
-
     private void Up(ActivityWork activity, Guid id)
     {
         var members = activity.Members;
-        var count = members.Count;
-        var currentMember = members.Single(m => m.Id.Equals(id));
-        var currentMemberIndex = members.IndexOf(currentMember);
-        members.RemoveAt(currentMemberIndex);
-        if (currentMemberIndex == 0 && count > 1)
-            currentMemberIndex = count - 1;        
-        members.Insert(currentMemberIndex - 1, currentMember);
+        var count = members?.Count;
+        var currentMember = members?.Single(m => m.Id.Equals(id));
+        if (currentMember != null)
+        {
+            var currentMemberIndex = members?.IndexOf(currentMember);
+            members?.RemoveAt(currentMemberIndex!.Value);
+            if (currentMemberIndex == 0 && count > 1)
+                currentMemberIndex = (int)(count - 1);        
+            members?.Insert(currentMemberIndex!.Value - 1, currentMember);
+        }
     }
 
-    private void Rotate()
+    private async Task Rotate()
     {
         if (activities != null)
         {
             RotationService.Rotate(activities.First());
         }
+
+        await SaveActivity();
     }
 
     private void CheckRotate()
@@ -94,9 +103,10 @@
         }
     }
 
-
-    protected override async Task OnInitializedAsync()
+    private string GetMemberNextActivity()
     {
-        activities = await ActivitySaverService.LoadActivitiesFromFileAsync();
+        var member = activities?.FirstOrDefault()?.Members?.FirstOrDefault();
+
+        return member?.LastName + " " + member?.Name;
     }
 }
